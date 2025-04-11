@@ -7,7 +7,7 @@ from launch_ros.substitutions import FindPackageShare
 
 def launch_setup(context):
 
-    urdf_path = PathJoinSubstitution([FindPackageShare("foxy_description"), "urdf", "model.urdf"])
+    urdf_path = PathJoinSubstitution([FindPackageShare("foxy_description"), "urdf", "foxy.urdf.xacro"])
 
     robot_description = {"robot_description": xacro.process_file(urdf_path.perform(context)).toxml()}
 
@@ -16,6 +16,20 @@ def launch_setup(context):
         executable="robot_state_publisher",
         output="both",
         parameters=[robot_description],
+    )
+
+    joint_state_publisher_node = Node(
+        package="joint_state_publisher",
+        executable="joint_state_publisher",
+        name='joint_state_publisher',
+        output="both",
+        parameters=[robot_description],
+    )
+
+    joint_state_publisher_gui_node = Node(
+        package='joint_state_publisher_gui',
+        executable='joint_state_publisher_gui',
+        name='joint_state_publisher_gui',
     )
 
     rviz_node = Node(
@@ -28,6 +42,7 @@ def launch_setup(context):
 
     return [
         robot_state_publisher_node,
+        joint_state_publisher_gui_node,
         rviz_node
     ]
 
