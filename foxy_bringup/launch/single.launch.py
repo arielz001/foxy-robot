@@ -42,13 +42,16 @@ def launch_args(context) -> list[LaunchDescriptionEntity]:
 
     declared_args.append(DeclareLaunchArgument(
         "world",
-        default_value="small_loop",
+        default_value="braitenberg_map",
         choices=[
             "empty",
             "small_loop",
             "small_map",
             "large_map",
-            "straight_lane"
+            "straight_lane",
+            "small_map_many_duckies",
+            "small_loop_many_duckies",
+            "braitenberg_map"
         ],
         description="World in simulation (only `gz` sim supported for now)."
     ))
